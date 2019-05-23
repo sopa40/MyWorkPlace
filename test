@@ -1,0 +1,20 @@
+import pysnooper
+@pysnooper.snoop()
+
+def potenz(a,b):
+    return helper(a,b,1)
+
+def helper(a,b,n):
+    if b==0:
+        return n
+    else:
+        return helper(a,b-1,n*a)
+
+def fib(n):
+    def quick(a,b,n):
+        if n==0:
+            return a
+        else:
+            return quick(b,a+b,n-1)
+    return quick(0,1,n)    
+fib(3)
