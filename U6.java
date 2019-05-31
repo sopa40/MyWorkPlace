@@ -57,7 +57,7 @@ class Rectangle{
 	}
 }
 
-public class test{
+public class U6{
 	public static void main(String args[]){
 		int i=(int)(new Random().nextInt(3));
 		System.out.println(mul(45,33));
