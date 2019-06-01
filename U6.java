@@ -1,8 +1,8 @@
-package qiaw99;
 import java.util.Random;
 import java.util.Scanner;
 
-class Circle{
+//Aufgabe 4
+class Circle{		
 	private double x;
 	private double y;
 	private double radius;
@@ -81,7 +81,7 @@ class ZInteger<A,B>{
 		return new ZInteger <A,B> (z.first+this.first,z.second+this.second).simplify();
 	}
 	public ZInteger sub(ZInteger z){
-		return new ZInteger <A,B> (this.first-z.first,this.second-z.second).simplify();
+		return new ZInteger <A,B> (this.first+z.second,this.second+z.first).simplify();
 	}
 	public ZInteger mul(ZInteger z){
 		return new ZInteger <A,B> (this.second*z.first+this.first*z.second,this.second*z.second+this.first*z.first).simplify(); 
@@ -92,12 +92,12 @@ class ZInteger<A,B>{
 		if(a>=0){
 			while(a>0){
 				a-=1;
-				b+=1;
+				b-=1;
 			}
 		}else{
 			while(a<0){
 				a+=1;
-				b-=1;
+				b+=1;
 			}
 		}
 		while(a>0){
@@ -149,9 +149,9 @@ class ZInteger<A,B>{
 class TestZInteger{		//g)
 	public TestZInteger(){}
 	public static void test(){
-		System.out.println("Test von (1,2) und (2,3)");
-		ZInteger z1=new ZInteger(1,2);
-		ZInteger z2=new ZInteger(2,3);
+		System.out.println("Test von (2,4) und (3,9)");
+		ZInteger z1=new ZInteger(2,4);
+		ZInteger z2=new ZInteger(3,9);
 		System.out.println("Addition:");
 		System.out.println(z1.add(z2).toString());
 		System.out.println("Substraktion:");
@@ -161,9 +161,73 @@ class TestZInteger{		//g)
 	}
 }
 
-public class test{
+public class U6{
+	public static final Random gen= new Random();
+	public static final int ROUNDS =10000;
+	
+	public static int mul(int a, int b){	//Aufgabe 1
+		//Die Komplexitaet ist: log2(n)
+		int res=b;		//c1
+		if(a==1){
+			return b;
+		}else{		
+			int temp1=a;
+			int temp2=b;
+			while(a>0){		//log n
+				a=a>>1;
+				b=b<<1;
+				if(a%2!=0){
+					res+=b;
+				}
+			}
+			if(temp1%2==0){
+				return res-temp2;
+			}else{
+				return res;
+			}
+		}
+	}
+	
+	public static int chooseAnotherDoor(int door1, int door2){
+		int res;
+		do
+			res=gen.nextInt(3);
+		while(res==door1 || res==door2);
+		return res;
+	}
+	
+	public static void test(){		//Aufgabe 2
+		int switching=0;
+		int staying=0;
+		int a=0;	//switching
+		for(int j=0;j<ROUNDS;j++){
+			int help=gen.nextInt(2);
+			int prize=gen.nextInt(3);
+			int userChoice1=gen.nextInt(3);
+			int hostChoice=chooseAnotherDoor(prize,userChoice1);
+			int userChoice2=chooseAnotherDoor(userChoice1,hostChoice);
+			if(userChoice1==prize)
+				staying++;
+			if(userChoice2==prize)
+				switching++;
+			if(help==1){	//switch
+				if(userChoice2==prize){
+					a++;
+				}
+			}	
+			if(help==2){	//staying
+				if(userChoice1==prize){
+					a++;
+				}	
+			}
+		}
+		System.out.println("There are 10000 Rounds.");
+		System.out.println(switching+" wins by always switching"+" with "+(double)switching/ROUNDS+"%");
+		System.out.println(staying+" wins by never swithing"+" with "+(double)staying/ROUNDS+"%");
+		System.out.println(staying+" wins by random switching"+" with "+(double)a/ROUNDS+"%");//?
+	}
+	
 	public static void main(String args[]){
-		int i=(int)(new Random().nextInt(3));
 		Scanner scan=new Scanner(System.in);
 		
 		System.out.println("*********Aufgabe 1*********");		
@@ -172,26 +236,9 @@ public class test{
 		System.out.println("Wie ist der Multiplikand?");
 		int m=scan.nextInt();
 		System.out.println("Das Ergebnis: "+mul(n,m));
+		System.out.println("*********Aufgabe 2*********");		
+		test();		
 		System.out.println("*********Aufgabe 6*********");
 		TestZInteger.test();		
-	}
-	public static int mul(int a, int b){	//Aufgabe 1
-		//Die Komplexitaet ist: log2(n)
-		int res=b;		//c1
-		if(a==1){
-			res+=b;
-			return res;
-		}else{
-			while(a>1){		//log(n)
-				a=a>>1;		//c2
-				b=b<<1;
-				if(a % 2==0){
-					res+=0;
-				}else{
-					res+=b;
-				}
-			}
-			return res;
-		}
 	}
 }
