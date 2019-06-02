@@ -200,6 +200,7 @@ class TestZInteger{		//g)
 public class test{
 	public static final Random gen= new Random();
 	public static final int ROUNDS =10000;
+	public static final Scanner scan=new Scanner(System.in);
 	
 	public static int mul(int a, int b){	//Aufgabe 1
 		//Die Komplexitaet ist: log2(n)
@@ -264,8 +265,6 @@ public class test{
 	}
 	
 	public static void main(String args[]){
-		Scanner scan=new Scanner(System.in);
-		
 		System.out.println("*********Aufgabe 1*********");		
 		System.out.println("Wie ist der Multiplikator?");
 		int n=scan.nextInt();
