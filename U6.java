@@ -183,6 +183,17 @@ class TestZInteger{		//g)
 		System.out.println(z1.sub(z2).toString());
 		System.out.println("Multiplikation:");
 		System.out.println(z1.mul(z2).toString());
+		System.out.println("Comparing with 2 ZIntegers:");
+		System.out.println("Bigger?");
+		System.out.println(z1.bigger(z2));
+		System.out.println("Bigger or equal?");
+		System.out.println(z1.biggerOrEqual(z2));
+		System.out.println("Equal?");
+		System.out.println(z1.equal(z2));
+		System.out.println("Smaller?");
+		System.out.println(z1.smaller(z2));
+		System.out.println("Smaller or equal?");
+		System.out.println(z1.smallerOrEqual(z2));
 	}
 }
 
