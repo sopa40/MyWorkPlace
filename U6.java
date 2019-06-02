@@ -46,7 +46,7 @@ class Circle{
 	}
 	public static Rectangle smallestBoundingRectangle(Circle [] circles){
 		Circle temp=circles[0];
-		for(Circle c : circles){
+		for(Circle c : circles){	//alle Elemente in Array
 			if(!temp.contains(c)){
 				temp=c;
 			}
