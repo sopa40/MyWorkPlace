@@ -1,3 +1,4 @@
+package qiaw99;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -43,7 +44,7 @@ class Circle{
 			return true;
 		}
 	}
-	public static Rectangle smallestBoundingRechtangle(Circle [] circles){
+	public static Rectangle smallestBoundingRectangle(Circle [] circles){
 		Circle temp=circles[0];
 		for(Circle c : circles){
 			if(!temp.contains(c)){
@@ -69,6 +70,30 @@ class Rectangle{
 		return "("+this.x+","+this.y+") with width "+this.width+" and height "+this.height;
 	}
 }
+class TestCircle{
+	public static void test(){
+		System.out.println("The first circle is:(0,0,10)");
+		System.out.println("The second circle is cloned c1");
+		System.out.println("The third circle is:(0,0,20)");
+		System.out.println("The forth circle is:(1,1,10)");
+		Circle c1=new Circle(0,0,10);
+		Circle c2=c1.clone();
+		Circle c3=new Circle(0,0,20);
+		Circle c4=new Circle(1,1,10);
+		System.out.println("The result of c1 comparing to the cloned circle c2:");
+		int i=c1.compareTo(c2);
+		System.out.println(i);
+		System.out.println("c3 contains c1?");
+		System.out.println(c3.contains(c1));
+		System.out.println("c4 overlaps with c1?");
+		System.out.println(c4.overlaps(c1));
+		Circle [] circles=new Circle []{c1,c2,c3};
+		System.out.println("There are 3 circles in the list, c1 c2 c3!");
+		System.out.println("Infos about the rectangle:");
+		System.out.println(new Circle().smallestBoundingRectangle(circles).getInfo());
+	}	
+}
+
 //Aufgabe 6
 class ZInteger<A,B>{
 	public final int first;		// a)
@@ -161,7 +186,7 @@ class TestZInteger{		//g)
 	}
 }
 
-public class U6{
+public class test{
 	public static final Random gen= new Random();
 	public static final int ROUNDS =10000;
 	
@@ -238,6 +263,8 @@ public class U6{
 		System.out.println("Das Ergebnis: "+mul(n,m));
 		System.out.println("*********Aufgabe 2*********");		
 		test();		
+		System.out.println("*********Aufgabe 4*********");
+		TestCircle.test();
 		System.out.println("*********Aufgabe 6*********");
 		TestZInteger.test();		
 	}
