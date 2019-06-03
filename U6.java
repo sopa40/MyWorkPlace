@@ -45,13 +45,31 @@ class Circle{
 		}
 	}
 	public static Rectangle smallestBoundingRectangle(Circle [] circles){
-		Circle temp=circles[0];
-		for(Circle c : circles){	//alle Elemente in Array
-			if(!temp.contains(c)){
-				temp=c;
+		double temp1=circles[0].x-circles[0].radius;
+		double temp2=circles[0].x+circles[0].radius;
+		double temp3=circles[0].y-circles[0].radius;
+		double temp4=circles[0].y+circles[0].radius;
+		for(Circle c:circles){		//smallst x-coorinate
+			if(c.x-c.radius<temp1){
+				temp1=c.x-c.radius;
 			}
 		}
-		return new Rectangle(temp.x-temp.radius,temp.y-temp.radius,2*temp.radius,2*temp.radius);
+		for(Circle c:circles){	//biggest x-coorinate
+			if(c.x+c.radius>temp2){
+				temp2=c.x+c.radius;
+			}
+		}
+		for(Circle c:circles){	//smallst y-coorinate
+			if(c.y-c.radius<temp3){
+				temp3=c.y-c.radius;
+			}
+		}
+		for(Circle c:circles){	//biggest y-coorinate
+			if(c.y+c.radius>temp4){
+				temp4=c.y+c.radius;
+			}
+		}
+		return new Rectangle(temp1,temp3,temp2-temp1,temp4-temp3);
 	}
 }
 
@@ -87,8 +105,8 @@ class TestCircle{
 		System.out.println(c3.contains(c1));
 		System.out.println("c4 overlaps with c1?");
 		System.out.println(c4.overlaps(c1));
-		Circle [] circles=new Circle []{c1,c2,c3};
-		System.out.println("There are 3 circles in the list, c1 c2 c3!");
+		Circle [] circles=new Circle []{c1,c3,c4};
+		System.out.println("There are 3 circles in the list, c1 c3 c4!");
 		System.out.println("Infos about the rectangle:");
 		System.out.println(new Circle().smallestBoundingRectangle(circles).getInfo());
 	}	
