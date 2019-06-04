@@ -1,39 +1,42 @@
+//Übungsgruppe:Qianli und Nazar
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
 
-#define FileName "data.dat"
+#define FileName "test.txt"
+#define MAX_SIZE 256
 
 int main() {
-	char buffer[256];
+	int fd;
+	char buffer[MAX_SIZE];
 	printf("Input?\n");
-	scanf("%s",buffer);
+	fgets(buffer,MAX_SIZE-1,stdin);
+
 	struct flock lock;
 	lock.l_type = F_WRLCK;   
 	lock.l_whence = SEEK_SET; 
 	lock.l_start = 0;         
 	lock.l_len = 0;          
 	lock.l_pid = getpid();   
-
-	int fd;
-	if ((fd = open(FileName, O_RDWR | O_CREAT, 0666)) < 0){  // -1 signals an error 
-		fprintf(stderr,"open failed...");
+	if ((fd = open(FileName, O_RDWR | O_CREAT, 0666)) ==-1){  
+		fprintf(stderr,"Can't be opened!\n");
 		exit(-1);
 	}
 	if (fcntl(fd, F_SETLK, &lock) < 0){ 
-		fprintf(stderr,"fcntl failed to get lock...");
+		fprintf(stderr,"Can't not be locked!\n");
 		exit(-1);
 	}else {
 		write(fd,buffer, strlen(buffer));
-		fprintf(stderr, "Process %d has written to data file...\n", lock.l_pid);
+		fprintf(stdout, "Process %d\n", lock.l_pid);
 	}
 	lock.l_type = F_UNLCK;
 	if (fcntl(fd, F_SETLK, &lock) < 0){
-		fprintf(stderr,"explicit unlocking failed...");
+		fprintf(stderr,"Can't be unlocked!\n");
 		exit(-1);
 	}
 	close(fd); 
 	return 0; 
 }
+
