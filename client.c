@@ -4,46 +4,34 @@
 #include <unistd.h>
 #include <string.h>
 
-
-#define FileName "data.dat"
-
-void report_and_exit(const char* msg) {
-  perror(msg);
-  exit(-1); /* EXIT_FAILURE */
-}
+#define FileName "test.txt"
 
 int main() {
-  struct flock lock;
-  lock.l_type = F_WRLCK;    /* read/write (exclusive) lock */
-  lock.l_whence = SEEK_SET; /* base for seek offsets */
-  lock.l_start = 0;         /* 1st byte in file */
-  lock.l_len = 0;           /* 0 here means 'until EOF' */
-  lock.l_pid = getpid();    /* process id */
+	struct flock lock;
+	lock.l_type = F_WRLCK;   
+	lock.l_whence = SEEK_SET; 
+	lock.l_start = 0;         
+	lock.l_len = 0;           
+	lock.l_pid = getpid();   
 
-  int fd; /* file descriptor to identify a file within a process */
-  if ((fd = open(FileName, O_RDONLY)) < 0)  /* -1 signals an error */
-    report_and_exit("open to read failed...");
+	int fd; 
+	if ((fd = open(FileName, O_RDONLY)) < 0)  
+		fprintf(stderr,"Can't be opened!\n");
 
-  /* If the file is write-locked, we can't continue. */
-  fcntl(fd, F_GETLK, &lock); /* sets lock.l_type to F_UNLCK if no write lock */
-  if (lock.l_type != F_UNLCK)
-    report_and_exit("file is still write locked...");
+	fcntl(fd, F_GETLK, &lock);
+	if (lock.l_type != F_UNLCK)
+		fprintf(stderr,"Write locked!\n");
 
-  lock.l_type = F_RDLCK; /* prevents any writing during the reading */
-  if (fcntl(fd, F_SETLK, &lock) < 0)
-    report_and_exit("can't get a read-only lock...");
+	lock.l_type = F_RDLCK; 
+	if (fcntl(fd, F_SETLK, &lock) < 0)
+		fprintf(stderr,"Can't get a read-only lock!\n");
 
-  /* Read the bytes (they happen to be ASCII codes) one at a time. */
-  int c; /* buffer for read bytes */
-  while (read(fd, &c, 1) > 0)    /* 0 signals EOF */
-    write(STDOUT_FILENO, &c, 1); /* write one byte to the standard output */
-  printf("\n");
-
-  /* Release the lock explicitly. */
-  lock.l_type = F_UNLCK;
-  if (fcntl(fd, F_SETLK, &lock) < 0)
-    report_and_exit("explicit unlocking failed...");
-
-  close(fd);
-  return 0;
+	int c; 
+	while (read(fd, &c, 1) > 0)    
+		write(STDOUT_FILENO, &c, 1); 
+	lock.l_type = F_UNLCK;
+	if (fcntl(fd, F_SETLK, &lock) < 0)
+		fprintf(stderr,"Can't be unlocked!\n");
+	close(fd);
+	return 0;
 }
