@@ -1078,7 +1078,30 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     		for(double )
     	}
     }
-    
+    public static class Star{
+    	public static void star(double x,double y, double size1,double size2){
+    		double [] helper1=new double[]{x-size1,x,x+size1,x};
+    		double [] helper2=new double[]{y,y-size2,y,y+size2};
+    		double [] helper5=new double[]{x,x,x+size1,x-size1};
+    		double [] helper6=new double[]{y+size2,y-size2,y,y};
+    		double [] helper3=new double[]{x,x-size2,x,x+size2};
+    		double [] helper4=new double[]{y-size1,y,y+size1,y};
+    		StdDraw.filledPolygon(helper1,helper2);
+    		StdDraw.filledPolygon(helper3,helper4);
+    		StdDraw.filledPolygon(helper5,helper6);
+    	}
+    	public static void printStar(){
+    		StdDraw.setXscale(-4, 4);
+            StdDraw.setYscale(-4, 4);
+    		for(int i=0;i<=50;i++){
+                double size1=Math.random();
+                double size2=size1/5;
+        		double x=Math.random()*8-4;
+        		double y=Math.random()*8-4;
+    			star(x,y,size1,size2);
+    		}
+    	}    	
+    }
     public static class Butterfly{		//Aufgabe2 b)
     	public static void printButterfly(){
     		StdDraw.setXscale(-4, 4);
