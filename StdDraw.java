@@ -1145,17 +1145,26 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
   
   public static class Mickey{
 	  public static void printImage(double x,double y,double radius){
-		  double helper=radius/(Math.sqrt(2)-1);
-		  StdDraw.circle(x+radius);
-		  
+		  double helper=radius*(Math.sqrt(2)-1);
+		  StdDraw.filledCircle(x+radius,y+radius,helper);
+		  StdDraw.filledCircle(x-radius,y+radius,helper);
+		  StdDraw.filledCircle(x+radius,y-radius,helper);
+		  StdDraw.filledCircle(x-radius,y-radius,helper);
 	  }
-	  public static void printMickey(){
+	  public static void printMickey(double a,double b,double c){
   		  StdDraw.setXscale(-4, 4);
           StdDraw.setYscale(-4, 4);
           StdDraw.filledCircle(0,0,2);
           double r=-4;
           for(int i=0 ; i < 4; i++){
-        	  StdDraw.circle();
+        	  printImage(a,b,c);
+        	  a+=c;
+        	  b+=c;
+        	  c*=(Math.sqrt(2)-1);
+        	  printImage(a+c,b+c,c);
+        	  printImage(a+c,b-c,c);
+        	  printImage(a-c,b+c,c);
+        	  printImage(a-c,b-c,c);
           }
 	  }
   }
@@ -1163,7 +1172,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
       //Butterfly.printButterfly();
 	  //Star.printStar();
 	  //test.test();
-	  Mickey.printMickey();
+	  Mickey.printMickey(0,0,2);
   	
   }
 }
