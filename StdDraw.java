@@ -1084,6 +1084,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
   	      double d;
   	      double e;
   	      double g;
+  	      double y1;
   	      for(double a=-4.0;a<=4.0;a+=0.1){
   	    	  b=8-(Math.sqrt(64-Math.pow(a-4,2))+4);
   	    	  StdDraw.line(a, -4, a, b);
@@ -1101,8 +1102,12 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
   	    	  g=(Math.sqrt(64-Math.pow(h+4,2))-4);
   	    	  StdDraw.line(4,h,g,h);
   	      }
-  	      StdDraw.ellipse(0, 4, 4, 2);
-  	      //StdDraw.picture(0, 4, "ellipse.png", 12, 6, -45);
+  	      setPenColor(PINK);
+  	      setPenRadius(1.0);
+  	      for(double x1=-4;x1<=4;x1+=0.01){
+  	    	  y1=Math.sqrt(4*(1-x1*x1/16))+4;  	    	  
+  	    	  StdDraw.point(Math.cos(45)*x1-2*Math.sin(45)*y1,0.5*Math.sin(45)+Math.cos(45)*y1);
+  	      }
   	  }	  
     }
     public static class Star{
@@ -1169,21 +1174,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     	}
     }
     public static void main(String[] args) {
-    	for(int i=0;i<4;i++){
-    		if(i==0){
-    			System.out.println("Aufgabe 3 a)");
-    			test.test();
-    		}else if(i==1){
-    			System.out.println("Aufgabe 3 b)");
-    			Star.printStar();
-    		}else if(i==2){
-    			System.out.println("Aufgabe 3 c)");
-    			Butterfly.printButterfly();
-    		}else{
-    			System.out.println("Aufgabe 5");
-    			Mickey.printMickey(0,0,256);
-    		}
-    	}
+    	test.test();
     }
 }
 
