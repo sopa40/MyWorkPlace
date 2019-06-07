@@ -1149,32 +1149,33 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     	}
     }    
     public static class Mickey{
-    	public static void printImage(double x,double y,double radius){
-    		double helper=radius*(Math.sqrt(2)-1);
-    		StdDraw.filledCircle(x+radius,y+radius,helper);
-    		StdDraw.filledCircle(x-radius,y+radius,helper);
-    		StdDraw.filledCircle(x+radius,y-radius,helper);
-    		StdDraw.filledCircle(x-radius,y-radius,helper);
-  	  }
-    	public static void printMickey(double a,double b,double c){
-    		StdDraw.setXscale(-4, 4);
+    	public static double radius = 2;
+		public static final double smallestRadius = 0.25;
+		public static void setOptions() {
+			StdDraw.setXscale(-4, 4);
     		StdDraw.setYscale(-4, 4);
-    		StdDraw.filledCircle(0,0,2);
-    		double r=-4;
-    		for(int i=0 ; i < 4; i++){
-    			printImage(a,b,c);
-    			a+=c;
-    			b+=c;
-    			c*=(Math.sqrt(2)-1);
-    			printImage(a+c,b+c,c);
-    			printImage(a+c,b-c,c);
-    			printImage(a-c,b+c,c);
-    			printImage(a-c,b-c,c);   
-    		}
+			double maxX = 4, minX = -4, maxY = 4, minY = -4;
+			printMickey(maxX, minX, maxY, minY, radius);
+		}
+    	public static void printMickey(double maxX, double minX,double maxY, double minY, double radius){
+    		double posX = (maxX + minX)/2;
+			double posY = (maxY + minY)/2;
+			StdDraw.filledCircle(posX, posY, radius);
+			double newRadius = radius/2;
+			if(newRadius >= smallestRadius) {
+				Mickey.printMickey(posX, minX, maxY, posY, newRadius);
+				Mickey.printMickey(posX, minX, posY, minY, newRadius);
+				Mickey.printMickey(maxX, posX, posY, minY, newRadius);
+				Mickey.printMickey(maxX, posX, maxY, posY, newRadius);
+			}
+			else {
+				return;
+			}
+
     	}
     }
     public static void main(String[] args) {
-    	test.test();
+    	Mickey.setOptions();
     }
 }
 
